@@ -1,4 +1,4 @@
-package iubh.isef.korrekturmanagementsystem.entity;
+package com.iubh.isef.korrekturmanagementsystem.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

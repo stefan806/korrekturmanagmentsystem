@@ -1,4 +1,4 @@
-package iubh.isef.korrekturmanagementsystem;
+package com.iubh.isef.korrekturmanagementsystem;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

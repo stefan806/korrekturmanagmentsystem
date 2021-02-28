@@ -1,7 +1,7 @@
-package iubh.isef.korrekturmanagementsystem.resource;
+package com.iubh.isef.korrekturmanagementsystem.resource;
 
-import iubh.isef.korrekturmanagementsystem.entity.User;
-import iubh.isef.korrekturmanagementsystem.repository.UserRepository;
+import com.iubh.isef.korrekturmanagementsystem.entity.User;
+import com.iubh.isef.korrekturmanagementsystem.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
