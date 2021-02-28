@@ -7,9 +7,6 @@ import javax.faces.context.FacesContext;
 
 import java.util.Map;
 
-/**
- * The JSF view scope ported to spring *
- */
 public class ViewScope implements Scope {
 
 	@Override

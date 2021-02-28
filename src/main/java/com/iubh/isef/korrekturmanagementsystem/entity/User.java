@@ -15,10 +15,22 @@ import javax.persistence.*;
 public class User {
 
     @Id
-    @Column(name = "userid")
-    @GeneratedValue(strategy= GenerationType.AUTO)
-    private Long userid;
+    @Column(name = "email")
+    private String email;
 
-    @Column(name = "username")
-    private String username;
+    @Column(name = "vorname")
+    private String vorname;
+
+    @Column(name = "nachname")
+    private String nachname;
+
+    @Column(name = "funktion")
+    private String funktion;
+
+    @Column(name = "user_password")
+    private String password;
+
+    @ManyToOne
+    @JoinColumn(name = "roleid", referencedColumnName = "roleid")
+    private Role role;
 }

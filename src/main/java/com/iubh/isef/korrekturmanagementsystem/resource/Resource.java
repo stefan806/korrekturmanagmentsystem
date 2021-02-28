@@ -20,7 +20,6 @@ public class Resource {
 
     @GetMapping("/users")
     public ResponseEntity<Iterable<User>> getUsers(){
-        Iterable<User> allUsers = userRepository.findAll();
-        return new ResponseEntity<>(allUsers, HttpStatus.OK);
+        return new ResponseEntity<>(userRepository.findAll(), HttpStatus.OK);
     }
 }
