@@ -1,0 +1,37 @@
+body {
+    font-family: Corbel;
+    font-size: 20px;
+}
+
+.login {
+    padding-top: 200px;
+    clear: left;
+    float: left;
+    position: relative;
+    left: 50%;
+}
+
+.login-inner {
+    display: block;
+    float: left;
+    position: relative;
+    right: 50%;
+}
+
+input {
+    outline: 0;
+    border-width: 0 0 2px;
+    border-color: #005f5f;
+}
+
+input:focus {
+    border-color: #27d2d2;
+}
+
+.button {
+    height: 50px;
+    width: 100px;
+    text-decoration: none;
+    background: #005F5F;
+    color: white;
+}

@@ -1,4 +1,4 @@
-package com.iubh.isef.korrekturmanagementsystem.view;
+package com.iubh.isef.korrekturmanagementsystem.config;
 
 import org.springframework.beans.factory.ObjectFactory;
 import org.springframework.beans.factory.config.Scope;

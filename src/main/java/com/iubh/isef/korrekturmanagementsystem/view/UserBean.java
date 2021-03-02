@@ -22,9 +22,4 @@ public class UserBean {
 	@Autowired
 	private UserRepository userRepository;
 
-	public User getFirstUser() {
-		Optional<User> user = userRepository.findById("christian.koeninger@iubh-fernstudium.de");
-		return user.orElse(null);
-	}
-
 }

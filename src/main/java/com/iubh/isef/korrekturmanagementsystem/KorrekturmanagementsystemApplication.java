@@ -1,7 +1,7 @@
 package com.iubh.isef.korrekturmanagementsystem;
 
 import com.google.common.collect.ImmutableMap;
-import com.iubh.isef.korrekturmanagementsystem.view.ViewScope;
+import com.iubh.isef.korrekturmanagementsystem.config.ViewScope;
 import org.springframework.beans.factory.config.CustomScopeConfigurer;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
