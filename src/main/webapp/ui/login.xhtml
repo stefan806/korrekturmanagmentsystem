@@ -2,32 +2,54 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
-    <link rel="stylesheet" href="../style/style.css"/>
+    <link rel="stylesheet" href="../style/login.css"/>
+    <title>Korrekturmanagementsystem</title>
 </h:head>
 
 <h:body>
+    <div class="header">
+        <a href="login.xhtml">
+            <img class="logo" width="250" src="../image/logo_iubh.png"/>
+        </a>
+    </div>
     <h:form>
         <ui:fragment rendered="#{!loginBean.loginGranted}">
+            <div class="welcome">
+                <p>Herzlich willkomen im Korrekturmanagementsystem der IUBH!</p>
+            </div>
             <div class="login">
                 <div class="login-inner">
-                    <p>
-                        <h:outputLabel>E-Mail: </h:outputLabel>
-                        <h:inputText value="#{loginBean.loggedInUserEmail}"/>
-                    </p>
-                    <p>
-                        <h:outputLabel>Passwort: </h:outputLabel>
-                        <h:inputText value="#{loginBean.loggedInUserPassword}"/>
-                    </p>
-                    <p>
-                        <h:commandLink styleClass="button" action="#{loginBean.checkLogin}">Login</h:commandLink>
-                    </p>
+                    <table>
+                        <tr>
+                            <td><h:outputLabel>E-Mail: </h:outputLabel></td>
+                            <td><h:inputText value="#{loginBean.loggedInUserEmail}"/></td>
+                        </tr>
+                        <tr>
+                            <td><h:outputLabel>Passwort: </h:outputLabel></td>
+                            <td><h:inputText value="#{loginBean.loggedInUserPassword}"/></td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h:commandLink styleClass="button" action="#{loginBean.checkLogin}" value="Login"/>
+                            </td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </ui:fragment>
 
-        <h:outputLabel rendered="#{loginBean.loginGranted}" value="#{loginBean.loggedInUserEmail} angemeldet"/>
+        <ui:fragment rendered="#{loginBean.loginGranted}">
+            <ui:include src="start.xhtml"/>
+        </ui:fragment>
     </h:form>
+
+
+    <div class="footer">
+        <a href="imprint.html" class="button footerlink">Impressum</a> |
+        <a href="data-privacy.html" class="button footerlink">Datenschutz</a>
+    </div>
 </h:body>
 </html>
