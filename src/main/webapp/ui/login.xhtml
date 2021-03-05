@@ -25,21 +25,21 @@
                     <div class="login-inner">
                         <table>
                             <tr>
-                                <td><h:outputLabel>E-Mail: </h:outputLabel></td>
-                                <td><h:inputText value="#{loginBean.loggedInUserEmail}"/></td>
+                                <td class="table-data"><h:outputLabel>E-Mail: </h:outputLabel></td>
+                                <td class="table-data"><h:inputText value="#{loginBean.loggedInUserEmail}"/></td>
                             </tr>
                             <tr>
-                                <td><h:outputLabel>Passwort: </h:outputLabel></td>
-                                <td><h:inputText value="#{loginBean.loggedInUserPassword}"/></td>
+                                <td class="table-data"><h:outputLabel>Passwort: </h:outputLabel></td>
+                                <td class="table-data"><h:inputText value="#{loginBean.loggedInUserPassword}"/></td>
                             </tr>
                             <tr>
-                                <td>
+                                <td class="table-data">
                                     <h:commandLink styleClass="button" action="#{loginBean.checkLogin}" value="Login"/>
                                 </td>
                             </tr>
-                            <tr><td><br/></td></tr>
+                            <tr><td class="table-data"><br/></td></tr>
                             <tr>
-                                <td colspan="2">
+                                <td class="table-data" colspan="2">
                                     <a class="button"
                                        href="mailto:christian.koeninger@iubh-fernstudium.de">Passwort vergessen</a>
                                 </td >

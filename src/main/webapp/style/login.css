@@ -40,7 +40,7 @@ input:focus {
     text-decoration-line: underline;
 }
 
-td {
+.table-data {
     padding-top: 25px;
 }
 
@@ -76,7 +76,7 @@ td {
     top: 100px;
     bottom: 50px;
     left: 40px;
-    right: 0px;
+    right: 40px;
     overflow: auto;
 }
 

@@ -1,0 +1,30 @@
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <link rel="stylesheet" href="../style/benutzer.css"/>
+    <link rel="stylesheet" href="../style/start.css"/>
+</h:head>
+<body>
+<h:dataTable rules="rows" var="user" value="#{userBean.allUser}">
+    <h:column>
+        <f:facet name="header">Vorname</f:facet>
+        <h:outputText value="#{user.vorname}"/>
+    </h:column>
+    <h:column>
+        <f:facet name="header">Nachname</f:facet>
+        <h:outputText value="#{user.nachname}"/>
+    </h:column>
+    <h:column>
+        <f:facet name="header">E-Mail</f:facet>
+        <h:outputText value="#{user.email}"/>
+    </h:column>
+    <h:column>
+        <f:facet name="header">Rolle</f:facet>
+        <h:outputText value="#{user.role.bezeichnung}"/>
+    </h:column>
+</h:dataTable>
+</body>
+</html>

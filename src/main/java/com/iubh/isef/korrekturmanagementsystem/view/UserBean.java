@@ -9,9 +9,9 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.ManagedBean;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Component
 @Scope("view")
@@ -22,4 +22,8 @@ public class UserBean {
 	@Autowired
 	private UserRepository userRepository;
 
+	public List<User> getAllUser() {
+		List<User> users = StreamSupport.stream(userRepository.findAll().spliterator(), false).collect(Collectors.toList());
+		return users;
+	}
 }
