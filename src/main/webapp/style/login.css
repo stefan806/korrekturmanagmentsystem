@@ -82,12 +82,17 @@ td {
 
 .welcome {
     text-align: center;
-    padding-top: 200px;
+    padding-top: 100px;
 }
 
 .footerlink {
     text-decoration: none;
     font-weight: normal;
+}
+
+.data-privacy {
+    position: relative;
+    padding-right: 50px;
 }
 
 h1, h2, h3, h4, h5, h6 {

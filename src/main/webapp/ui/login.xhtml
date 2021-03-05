@@ -15,41 +15,42 @@
             <img class="logo" width="250" src="../image/logo_iubh.png"/>
         </a>
     </div>
-    <h:form>
-        <ui:fragment rendered="#{!loginBean.loginGranted}">
-            <div class="welcome">
-                <p>Herzlich willkomen im Korrekturmanagementsystem der IUBH!</p>
-            </div>
-            <div class="login">
-                <div class="login-inner">
-                    <table>
-                        <tr>
-                            <td><h:outputLabel>E-Mail: </h:outputLabel></td>
-                            <td><h:inputText value="#{loginBean.loggedInUserEmail}"/></td>
-                        </tr>
-                        <tr>
-                            <td><h:outputLabel>Passwort: </h:outputLabel></td>
-                            <td><h:inputText value="#{loginBean.loggedInUserPassword}"/></td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <h:commandLink styleClass="button" action="#{loginBean.checkLogin}" value="Login"/>
-                            </td>
-                        </tr>
-                    </table>
+    <div class="content">
+        <h:form>
+            <ui:fragment rendered="#{!loginBean.loginGranted}">
+                <div class="welcome">
+                    <p>Herzlich willkomen im Korrekturmanagementsystem der IUBH!</p>
                 </div>
-            </div>
-        </ui:fragment>
+                <div class="login">
+                    <div class="login-inner">
+                        <table>
+                            <tr>
+                                <td><h:outputLabel>E-Mail: </h:outputLabel></td>
+                                <td><h:inputText value="#{loginBean.loggedInUserEmail}"/></td>
+                            </tr>
+                            <tr>
+                                <td><h:outputLabel>Passwort: </h:outputLabel></td>
+                                <td><h:inputText value="#{loginBean.loggedInUserPassword}"/></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:commandLink styleClass="button" action="#{loginBean.checkLogin}" value="Login"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </ui:fragment>
 
-        <ui:fragment rendered="#{loginBean.loginGranted}">
-            <ui:include src="start.xhtml"/>
-        </ui:fragment>
-    </h:form>
-
+            <ui:fragment rendered="#{loginBean.loginGranted}">
+                <ui:include src="start.xhtml"/>
+            </ui:fragment>
+        </h:form>
+    </div>
 
     <div class="footer">
         <a href="imprint.html" class="button footerlink">Impressum</a> |
-        <a href="data-privacy.html" class="button footerlink">Datenschutz</a>
+        <a href="data-privacy.html" class="button footerlink data-privacy">Datenschutz</a>
     </div>
 </h:body>
 </html>
