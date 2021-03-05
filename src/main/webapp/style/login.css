@@ -76,7 +76,7 @@ input:focus {
     top: 100px;
     bottom: 50px;
     left: 40px;
-    right: 40px;
+    right: 0px;
     overflow: auto;
 }
 
