@@ -57,6 +57,7 @@ input:focus {
     right: 0px;
     overflow: hidden;
     border-bottom: 1px solid grey;
+    text-align: justify;
 }
 
 .footer {
@@ -82,7 +83,7 @@ input:focus {
 
 .welcome {
     text-align: center;
-    padding-top: 100px;
+    padding-top: 50px;
 }
 
 .footerlink {
