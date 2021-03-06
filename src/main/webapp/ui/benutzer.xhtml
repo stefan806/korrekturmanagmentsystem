@@ -2,29 +2,79 @@
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 <h:head>
     <link rel="stylesheet" href="../style/benutzer.css"/>
+    <link rel="stylesheet" href="../style/login.css"/>
     <link rel="stylesheet" href="../style/start.css"/>
 </h:head>
 <body>
-<h:dataTable rules="rows" var="user" value="#{userBean.allUser}">
-    <h:column>
-        <f:facet name="header">Vorname</f:facet>
-        <h:outputText value="#{user.vorname}"/>
-    </h:column>
-    <h:column>
-        <f:facet name="header">Nachname</f:facet>
-        <h:outputText value="#{user.nachname}"/>
-    </h:column>
-    <h:column>
-        <f:facet name="header">E-Mail</f:facet>
-        <h:outputText value="#{user.email}"/>
-    </h:column>
-    <h:column>
-        <f:facet name="header">Rolle</f:facet>
-        <h:outputText value="#{user.role.bezeichnung}"/>
-    </h:column>
-</h:dataTable>
+<ui:fragment rendered="#{not userBean.createMode}">
+    <p>
+        Sehen Sie sich alle Benutzer an oder fügen Sie Benutzer hinzu.
+    </p>
+    <p>
+        <h:commandLink styleClass="button" action="#{userBean.setCreateMode(true)}" value="Neuen Benutzer anlegen"
+                       rendered="#{not userBean.createMode}"/>
+    </p>
+    <h:dataTable rules="rows" var="user" value="#{userBean.allUser}">
+        <h:column>
+            <f:facet name="header">Vorname</f:facet>
+            <h:outputText value="#{user.vorname}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Nachname</f:facet>
+            <h:outputText value="#{user.nachname}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">E-Mail</f:facet>
+            <h:outputText value="#{user.email}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Funktion</f:facet>
+            <h:outputText value="#{user.funktion}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Rolle</f:facet>
+            <h:outputText value="#{user.role.bezeichnung}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Aktion</f:facet>
+            <h:commandLink styleClass="button" action="#{userBean.deleteUser(user)}" value="Löschen"/>
+        </h:column>
+    </h:dataTable>
+</ui:fragment>
+<ui:fragment rendered="#{userBean.createMode}">
+    <p>Hinweis: Als Default-Passwort wird "passwort" gesetzt.<br/>Dieses sollte durch den User über die "Passwort vergessen"-Funktion geändert werden.</p>
+    <h:form>
+        <h:panelGrid columns="4">
+            <h:outputLabel value="Vorname" for="Vorname"/>
+            <h:inputText id="Vorname" value="#{userBean.userToCreate.vorname}"/>
+            <h:outputLabel value="Nachname" for="Nachname"/>
+            <h:inputText id="Nachname" value="#{userBean.userToCreate.nachname}"/>
+            <h:outputLabel value="E-Mail" for="E-Mail"/>
+            <h:inputText id="E-Mail" value="#{userBean.userToCreate.email}"/>
+            <h:outputLabel value="Funktion" for="Funktion"/>
+            <h:inputText id="Funktion" value="#{userBean.userToCreate.funktion}"/>
+            <h:outputLabel value="Rolle" for="Rolle"/>
+            <h:selectOneMenu id="Rolle" value="#{userBean.userToCreateRole}">
+                <f:selectItem itemLabel="Ersteller" itemValue="Ersteller"/>
+                <f:selectItem itemLabel="Bearbeiter" itemValue="Bearbeiter"/>
+                <f:selectItem itemLabel="Administrator" itemValue="Administrator"/>
+            </h:selectOneMenu>
+            <h:outputLabel/>
+            <h:outputLabel/>
+            <h:commandButton style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
+                             styleClass="button" action="#{userBean.addUser}" value="Anlegen"/><br/>
+        </h:panelGrid>
+    </h:form>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <h:commandLink styleClass="button" action="#{userBean.setCreateMode(false)}" value="Zurück"/>
+</ui:fragment>
 </body>
 </html>

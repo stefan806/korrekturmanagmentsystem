@@ -2,3 +2,13 @@ td, th {
     text-align: left;
     padding: 20px;
 }
+
+select {
+    font-family: Corbel !important;
+    font-size: 20px !important;
+    outline: 0;
+    border-width: 0 0 1px;
+    border-color: #005f5f;
+    color: #424141;
+    width: 204px;
+}

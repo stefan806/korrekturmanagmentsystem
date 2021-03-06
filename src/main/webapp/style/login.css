@@ -19,10 +19,12 @@ body {
 }
 
 input {
-    font-size: 17px;
+    font-family: Corbel !important;
+    font-size: 20px !important;
     outline: 0;
     border-width: 0 0 1px;
     border-color: #005f5f;
+    color: #424141;
 }
 
 input:focus {
@@ -34,7 +36,7 @@ input:focus {
     height: 35px;
     width: 100px;
     background-color: white;
-    color: #005F5F;
+    color: #005F5F !important;
     font-weight: bold;
     outline: none;
     text-decoration-line: underline;

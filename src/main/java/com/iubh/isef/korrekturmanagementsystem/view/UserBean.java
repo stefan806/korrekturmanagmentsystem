@@ -1,6 +1,8 @@
 package com.iubh.isef.korrekturmanagementsystem.view;
 
+import com.iubh.isef.korrekturmanagementsystem.entity.Role;
 import com.iubh.isef.korrekturmanagementsystem.entity.User;
+import com.iubh.isef.korrekturmanagementsystem.repository.RoleRepository;
 import com.iubh.isef.korrekturmanagementsystem.repository.UserRepository;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +24,54 @@ public class UserBean {
 	@Autowired
 	private UserRepository userRepository;
 
+	@Autowired
+	private RoleRepository roleRepository;
+
+	private boolean createMode = false;
+
+	private User userToCreate = new User();
+
+	private String userToCreateRole;
+
+	public boolean isCreateMode() {
+		return createMode;
+	}
+
+	public void setCreateMode(boolean createMode) {
+		userToCreate = new User();
+		this.createMode = createMode;
+	}
+
+	public User getUserToCreate() {
+		return userToCreate;
+	}
+
+	public void setUserToCreate(User userToCreate) {
+		this.userToCreate = userToCreate;
+	}
+
+	public String getUserToCreateRole() {
+		return userToCreateRole;
+	}
+
+	public void setUserToCreateRole(String userToCreateRole) {
+		this.userToCreateRole = userToCreateRole;
+	}
+
 	public List<User> getAllUser() {
 		List<User> users = StreamSupport.stream(userRepository.findAll().spliterator(), false).collect(Collectors.toList());
 		return users;
+	}
+
+	public void deleteUser(User user) {
+		userRepository.deleteById(user.getEmail());
+	}
+
+	public User addUser(){
+		Role role = roleRepository.findByBezeichnung(userToCreateRole);
+		userToCreate.setRole(role);
+		userToCreate.setPassword("passwort");
+		createMode = false;
+		return userRepository.save(userToCreate);
 	}
 }
