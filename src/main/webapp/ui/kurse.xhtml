@@ -1,0 +1,60 @@
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <link rel="stylesheet" href="../style/benutzer.css"/>
+    <link rel="stylesheet" href="../style/login.css"/>
+    <link rel="stylesheet" href="../style/start.css"/>
+</h:head>
+<body>
+<ui:fragment rendered="#{not kurseBean.createMode}">
+    <p>
+        Sehen Sie sich alle Kurse an oder fügen Sie neue Kurse hinzu.
+    </p>
+    <p>
+        <h:commandLink styleClass="button" action="#{kurseBean.setCreateMode(true)}" value="Neuen Kurs anlegen"
+                       rendered="#{not userBean.createMode}"/>
+    </p>
+    <h:dataTable rules="rows" var="kurs" value="#{kurseBean.allKurse}">
+        <h:column>
+            <f:facet name="header">Kurs-ID</f:facet>
+            <h:outputText value="#{kurs.id}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Kursname</f:facet>
+            <h:outputText value="#{kurs.name}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Aktion</f:facet>
+            <h:commandLink styleClass="button" action="#{kurseBean.deleteKurs(kurs)}" value="Löschen"/>
+        </h:column>
+    </h:dataTable>
+</ui:fragment>
+<ui:fragment rendered="#{kurseBean.createMode}">
+    <p>Legen Sie hier neue Kurse an, die im Korrekturmanagementsystem verwaltet werden sollen.</p>
+    <h:form>
+        <h:panelGrid columns="4">
+            <h:outputLabel value="Kurs-Name" for="Name"/>
+            <h:inputText id="Name" value="#{kurseBean.kursToCreate.name}"/>
+            <h:outputLabel value="Bearbeiter" for="Name"/>
+            <h:selectManyListbox id="Bearbeiter" value="#{kurseBean.kursToCreate.user}">
+                <f:selectItems value="#{kurseBean.allAdminsAndBearbeiter}" var="user" itemValue="#{user}"
+                               itemLabel="#{user.vorname} #{user.nachname}"/>
+            </h:selectManyListbox>
+            <h:commandButton
+                    style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
+                    styleClass="button" action="#{kurseBean.addKurs}" value="Anlegen"/><br/>
+        </h:panelGrid>
+    </h:form>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <h:commandLink styleClass="button" action="#{kurseBean.setCreateMode(false)}" value="Zurück"/>
+</ui:fragment>
+</body>
+</html>

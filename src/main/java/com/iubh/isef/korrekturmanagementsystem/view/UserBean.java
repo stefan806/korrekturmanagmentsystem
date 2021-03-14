@@ -1,16 +1,16 @@
 package com.iubh.isef.korrekturmanagementsystem.view;
 
-import com.iubh.isef.korrekturmanagementsystem.entity.Role;
+import com.iubh.isef.korrekturmanagementsystem.entity.Rolle;
 import com.iubh.isef.korrekturmanagementsystem.entity.User;
 import com.iubh.isef.korrekturmanagementsystem.repository.RoleRepository;
 import com.iubh.isef.korrekturmanagementsystem.repository.UserRepository;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.ManagedBean;
+import javax.transaction.Transactional;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -58,6 +58,7 @@ public class UserBean {
 		this.userToCreateRole = userToCreateRole;
 	}
 
+	@Transactional
 	public List<User> getAllUser() {
 		List<User> users = StreamSupport.stream(userRepository.findAll().spliterator(), false).collect(Collectors.toList());
 		return users;
@@ -68,8 +69,8 @@ public class UserBean {
 	}
 
 	public User addUser(){
-		Role role = roleRepository.findByBezeichnung(userToCreateRole);
-		userToCreate.setRole(role);
+		Rolle rolle = roleRepository.findByBezeichnung(userToCreateRole);
+		userToCreate.setRolle(rolle);
 		userToCreate.setPassword("passwort");
 		createMode = false;
 		return userRepository.save(userToCreate);

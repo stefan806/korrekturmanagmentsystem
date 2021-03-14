@@ -1,11 +1,11 @@
 package com.iubh.isef.korrekturmanagementsystem.repository;
 
-import com.iubh.isef.korrekturmanagementsystem.entity.Role;
+import com.iubh.isef.korrekturmanagementsystem.entity.Rolle;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface RoleRepository extends CrudRepository<Role, Integer> {
+public interface RoleRepository extends CrudRepository<Rolle, Integer> {
 
-    Role findByBezeichnung(String bezeichnung);
+    Rolle findByBezeichnung(String bezeichnung);
 }
