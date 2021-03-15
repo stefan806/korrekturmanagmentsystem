@@ -29,6 +29,12 @@
             <h:outputText value="#{kurs.name}"/>
         </h:column>
         <h:column>
+            <f:facet name="header">Bearbeiter</f:facet>
+            <ui:repeat value="#{kurs.user}" var="user" varStatus="status">
+                <h:outputText value="#{user.vorname} #{user.nachname}#{status.last ? '' : ', '}"/>
+            </ui:repeat>
+        </h:column>
+        <h:column>
             <f:facet name="header">Aktion</f:facet>
             <h:commandLink styleClass="button" action="#{kurseBean.deleteKurs(kurs)}" value="Löschen"/>
         </h:column>
