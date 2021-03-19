@@ -11,8 +11,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.ManagedBean;
-import java.util.Arrays;
-import java.util.List;
+import javax.transaction.Transactional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -36,6 +36,16 @@ public class KurseBean {
         return createMode;
     }
 
+    Set<User> bearbeiter = new HashSet<>();
+
+    public Set<User> getBearbeiter() {
+        return bearbeiter;
+    }
+
+    public void setBearbeiter(Set<User> bearbeiter) {
+        this.bearbeiter = bearbeiter;
+    }
+
     public void setCreateMode(boolean createMode) {
         kursToCreate = new Kurs();
         this.createMode = createMode;
@@ -49,17 +59,26 @@ public class KurseBean {
         this.kursToCreate = kursToCreate;
     }
 
+    @Transactional
     public List<Kurs> getAllKurse() {
         List<Kurs> kurse = StreamSupport.stream(this.kurseRepository.findAll().spliterator(), false).collect(Collectors.toList());
         return kurse;
+    }
+
+    @Transactional
+    public void editKurs(Kurs kurs) {
+        setCreateMode(true);
+        kursToCreate = kurs;
     }
 
     public void deleteKurs(Kurs kurs) {
         this.kurseRepository.delete(kurs);
     }
 
+    @Transactional
     public void addKurs() {
         createMode = false;
+        kursToCreate.setUser(bearbeiter);
         this.kurseRepository.save(kursToCreate);
         this.kursToCreate = new Kurs();
     }

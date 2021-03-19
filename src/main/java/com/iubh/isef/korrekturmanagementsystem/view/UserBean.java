@@ -21,58 +21,67 @@ import java.util.stream.StreamSupport;
 @NoArgsConstructor
 public class UserBean {
 
-	@Autowired
-	private UserRepository userRepository;
+    @Autowired
+    private UserRepository userRepository;
 
-	@Autowired
-	private RoleRepository roleRepository;
+    @Autowired
+    private RoleRepository roleRepository;
 
-	private boolean createMode = false;
+    private boolean createMode = false;
 
-	private User userToCreate = new User();
+    private User userToCreate = new User();
 
-	private String userToCreateRole;
+    private String userToCreateRole;
 
-	public boolean isCreateMode() {
-		return createMode;
-	}
+    public boolean isCreateMode() {
+        return createMode;
+    }
 
-	public void setCreateMode(boolean createMode) {
-		userToCreate = new User();
-		this.createMode = createMode;
-	}
+    public void setCreateMode(boolean createMode) {
+        userToCreate = new User();
+        this.createMode = createMode;
+    }
 
-	public User getUserToCreate() {
-		return userToCreate;
-	}
+    public User getUserToCreate() {
+        return userToCreate;
+    }
 
-	public void setUserToCreate(User userToCreate) {
-		this.userToCreate = userToCreate;
-	}
+    public void setUserToCreate(User userToCreate) {
+        this.userToCreate = userToCreate;
+    }
 
-	public String getUserToCreateRole() {
-		return userToCreateRole;
-	}
+    public String getUserToCreateRole() {
+        return userToCreateRole;
+    }
 
-	public void setUserToCreateRole(String userToCreateRole) {
-		this.userToCreateRole = userToCreateRole;
-	}
+    public void setUserToCreateRole(String userToCreateRole) {
+        this.userToCreateRole = userToCreateRole;
+    }
 
-	@Transactional
-	public List<User> getAllUser() {
-		List<User> users = StreamSupport.stream(userRepository.findAll().spliterator(), false).collect(Collectors.toList());
-		return users;
-	}
+    @Transactional
+    public List<User> getAllUser() {
+        List<User> users = StreamSupport.stream(userRepository.findAll().spliterator(), false).collect(Collectors.toList());
+        users.sort(Comparator.comparing(User::getNachname));
+        return users;
+    }
 
-	public void deleteUser(User user) {
-		userRepository.deleteById(user.getEmail());
-	}
+    public void editUser(User user) {
+        setCreateMode(true);
+        userToCreate = userRepository.findByEmail(user.getEmail());
+        userToCreateRole = userToCreate.getRolle().getBezeichnung();
+    }
 
-	public User addUser(){
-		Rolle rolle = roleRepository.findByBezeichnung(userToCreateRole);
-		userToCreate.setRolle(rolle);
-		userToCreate.setPassword("passwort");
-		createMode = false;
-		return userRepository.save(userToCreate);
-	}
+    public void deleteUser(User user) {
+        userRepository.deleteById(user.getEmail());
+    }
+
+    public User addUser() {
+        Rolle rolle = roleRepository.findByBezeichnung(userToCreateRole);
+        userToCreate.setRolle(rolle);
+        if (userToCreate.getPassword() == null || userToCreate.getPassword().equals("")) {
+            userToCreate.setPassword("passwort");
+        }
+        createMode = false;
+        return userRepository.save(userToCreate);
+    }
 }

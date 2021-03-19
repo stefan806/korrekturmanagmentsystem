@@ -36,6 +36,10 @@
         </h:column>
         <h:column>
             <f:facet name="header">Aktion</f:facet>
+            <h:commandLink styleClass="button" action="#{kurseBean.editKurs(kurs)}" value="Bearbeiten"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header"/>
             <h:commandLink styleClass="button" action="#{kurseBean.deleteKurs(kurs)}" value="Löschen"/>
         </h:column>
     </h:dataTable>
@@ -47,13 +51,13 @@
             <h:outputLabel value="Kurs-Name" for="Name"/>
             <h:inputText id="Name" value="#{kurseBean.kursToCreate.name}"/>
             <h:outputLabel value="Bearbeiter" for="Name"/>
-            <h:selectManyListbox id="Bearbeiter" value="#{kurseBean.kursToCreate.user}">
+            <h:selectManyListbox id="Bearbeiter" value="#{kurseBean.bearbeiter}">
                 <f:selectItems value="#{kurseBean.allAdminsAndBearbeiter}" var="user" itemValue="#{user}"
                                itemLabel="#{user.vorname} #{user.nachname}"/>
             </h:selectManyListbox>
             <h:commandButton
                     style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
-                    styleClass="button" action="#{kurseBean.addKurs}" value="Anlegen"/><br/>
+                    styleClass="button" action="#{kurseBean.addKurs}" value="Speichern"/><br/>
         </h:panelGrid>
     </h:form>
     <br/>

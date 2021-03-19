@@ -21,12 +21,12 @@
     </p>
     <h:dataTable rules="rows" var="user" value="#{userBean.allUser}">
         <h:column>
-            <f:facet name="header">Vorname</f:facet>
-            <h:outputText value="#{user.vorname}"/>
-        </h:column>
-        <h:column>
             <f:facet name="header">Nachname</f:facet>
             <h:outputText value="#{user.nachname}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Vorname</f:facet>
+            <h:outputText value="#{user.vorname}"/>
         </h:column>
         <h:column>
             <f:facet name="header">E-Mail</f:facet>
@@ -41,7 +41,11 @@
             <h:outputText value="#{user.rolle.bezeichnung}"/>
         </h:column>
         <h:column>
-            <f:facet name="header">Aktion</f:facet>
+            <f:facet name="header">Aktionen</f:facet>
+            <h:commandLink styleClass="button" action="#{userBean.editUser(user)}" value="Bearbeiten"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header"/>
             <h:commandLink styleClass="button" action="#{userBean.deleteUser(user)}" value="Löschen"/>
         </h:column>
     </h:dataTable>
@@ -67,7 +71,7 @@
             <h:outputLabel/>
             <h:outputLabel/>
             <h:commandButton style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
-                             styleClass="button" action="#{userBean.addUser}" value="Anlegen"/><br/>
+                             styleClass="button" action="#{userBean.addUser}" value="Speichern"/><br/>
         </h:panelGrid>
     </h:form>
     <br/>

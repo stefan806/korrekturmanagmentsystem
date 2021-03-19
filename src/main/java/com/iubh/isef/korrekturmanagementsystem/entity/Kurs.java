@@ -26,7 +26,7 @@ public class Kurs {
     private String name;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
+    @Fetch(FetchMode.JOIN)
     @JoinTable(
             name = "course_user",
             joinColumns = @JoinColumn(name = "kursid", referencedColumnName = "kursid"),

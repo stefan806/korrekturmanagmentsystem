@@ -34,12 +34,12 @@ public class User {
     @Column(name = "user_password")
     private String password;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "roleid", referencedColumnName = "roleid")
     private Rolle rolle;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @Fetch(FetchMode.SUBSELECT)
+    @Fetch(FetchMode.JOIN)
     @JoinTable(
             name = "course_user",
             joinColumns = @JoinColumn(name = "email", referencedColumnName = "email"),
