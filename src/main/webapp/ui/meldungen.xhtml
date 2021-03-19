@@ -1,12 +1,98 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html
         PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-<head>
-    <title>Title</title>
-</head>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://java.sun.com/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <link rel="stylesheet" href="../style/benutzer.css"/>
+    <link rel="stylesheet" href="../style/login.css"/>
+    <link rel="stylesheet" href="../style/start.css"/>
+</h:head>
 <body>
+<ui:fragment rendered="#{not meldungBean.createMode}">
+    <p>
+        Hier können Sie sich einen Überblick über Ihre Meldungen verschaffen.<br/>
+        Erstellen Sie eine neue Meldung, um einen Fehler, Verbesserungsvorschlag oder eine Ergänzung zu melden.
+    </p>
+    <p>
+        <h:commandLink styleClass="button" action="#{meldungBean.setCreateMode(true)}" value="Neue Meldung anlegen"
+                       rendered="#{not meldungBean.createMode}"/>
+    </p>
+    <h:dataTable rules="rows" var="meldung" value="#{meldungBean.allMeldungen}">
+        <h:column>
+            <f:facet name="header">Meldedatum</f:facet>
+            <h:outputText value="#{meldungBean.getFormattedDate(meldung.anlagedatum)}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Priorität</f:facet>
+            <h:outputText value="#{meldung.prioritaet.beschreibung}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Status</f:facet>
+            <h:outputText value="#{meldung.status.beschreibung}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Bearbeiter</f:facet>
+            <h:outputText value="#{meldung.editor.vorname} #{meldung.editor.nachname}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Ersteller</f:facet>
+            <h:outputText value="#{meldung.creator.vorname} #{meldung.creator.nachname}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Kurzbeschreibung</f:facet>
+            <h:outputText value="#{meldung.kurzbeschreibung}"/>
+        </h:column>
+        <h:column>
+            <f:facet name="header">Aktionen</f:facet>
+<!--            <h:commandLink styleClass="button" action="#{userBean.editUser(user)}" value="Bearbeiten"/>-->
+<!--        </h:column>-->
+<!--        <h:column>-->
+<!--            <f:facet name="header"/>-->
+            <h:commandLink styleClass="button" action="#{meldungBean.deleteMeldung(meldung)}" value="Löschen"/>
+        </h:column>
+    </h:dataTable>
+</ui:fragment>
+<ui:fragment rendered="#{meldungBean.createMode}">
+    <p>Geben Sie hier an, welchen Verbesserungsvorschlag Sie mit uns teilen möchten:</p>
+    <h:form>
+        <h:panelGrid columns="4">
+            <h:outputLabel value="Kurs" for="Kurs"/>
+            <h:selectOneMenu id="Kurs" value="#{meldungBean.kursName}">
+                <f:selectItems value="#{kurseBean.allKurse}" var="kurs" itemValue="#{kurs.name}"
+                               itemLabel="#{kurs.name}"/>
+            </h:selectOneMenu>
+            <h:outputLabel value="Lehrmittel" for="Lehrmittel"/>
+            <h:selectOneMenu id="Lehrmittel" value="#{meldungBean.meldungToCreate.lehrmittel}">
+                <f:selectItems value="#{meldungBean.lehrmittel}" var="lehrmittel" itemValue="#{lehrmittel}"
+                               itemLabel="#{lehrmittel.beschreibung}"/>
+            </h:selectOneMenu>
+            <h:outputLabel value="Kurzbeschreibung" for="Kurzbeschreibung"/>
+            <h:inputText id="Kurzbeschreibung" value="#{meldungBean.meldungToCreate.kurzbeschreibung}"/>
+            <h:outputLabel value="Beschreibung" for="Beschreibung"/>
+            <h:inputTextarea id="Beschreibung" value="#{meldungBean.meldungToCreate.beschreibung}"/>
+            <h:outputLabel value="Priorität" for="Priorität"/>
+            <h:selectOneMenu id="Priorität" value="#{meldungBean.meldungToCreate.prioritaet}">
+                <f:selectItems value="#{meldungBean.prioritaeten}" var="prio" itemValue="#{prio}"
+                               itemLabel="#{prio.beschreibung}"/>
+            </h:selectOneMenu>
+            <h:outputLabel value="Kategorie" for="Kategorie"/>
+            <h:selectOneMenu id="Kategorie" value="#{meldungBean.meldungToCreate.kategorie}">
+                <f:selectItems value="#{meldungBean.kategorien}" var="kategorie" itemValue="#{kategorie}"
+                               itemLabel="#{kategorie.beschreibung}"/>
+            </h:selectOneMenu>
+            <h:commandButton style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
+                             styleClass="button" action="#{meldungBean.saveMeldung}" value="Speichern"/><br/>
+        </h:panelGrid>
+    </h:form>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <h:commandLink styleClass="button" action="#{meldungBean.setCreateMode(false)}" value="Zurück"/>
+</ui:fragment>
 
 </body>
 </html>

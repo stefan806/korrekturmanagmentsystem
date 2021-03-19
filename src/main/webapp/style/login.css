@@ -27,6 +27,15 @@ input {
     color: #424141;
 }
 
+textarea {
+    font-family: Corbel !important;
+    font-size: 20px !important;
+    outline: 0;
+    border-width: 0 0 1px;
+    border-color: #005f5f;
+    color: #424141;
+}
+
 input:focus {
     border-color: #70b7b7;
 }
