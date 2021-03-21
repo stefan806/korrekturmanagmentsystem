@@ -8,6 +8,7 @@ import com.iubh.isef.korrekturmanagementsystem.enumeration.Lehrmittel;
 import com.iubh.isef.korrekturmanagementsystem.enumeration.Prioritaet;
 import com.iubh.isef.korrekturmanagementsystem.repository.KurseRepository;
 import com.iubh.isef.korrekturmanagementsystem.repository.MeldungRepository;
+import com.iubh.isef.korrekturmanagementsystem.service.LoggedInUserService;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -31,6 +32,9 @@ public class MeldungBean {
 
     @Autowired
     private KurseRepository kurseRepository;
+
+    @Autowired
+    private LoggedInUserService loggedInUserService;
 
     private boolean createMode = false;
 
@@ -95,7 +99,7 @@ public class MeldungBean {
 
     public void saveMeldung() {
         meldungToCreate.setKurs(kurseRepository.findByName(kursName));
-        meldungToCreate.setCreator(new User()); //TODO: create LoginUserClass, save user from userbean, call here
+        meldungToCreate.setCreator(loggedInUserService.getLoggedInUser());
         meldungRepository.save(meldungToCreate);
         createMode = false;
     }
