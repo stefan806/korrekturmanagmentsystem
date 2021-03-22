@@ -46,46 +46,81 @@
             <h:outputText value="#{meldung.kurzbeschreibung}"/>
         </h:column>
         <h:column>
+            <f:facet name="header">Kommentare</f:facet>
+            <h:outputText value="#{meldungBean.getKommentarSize(meldung)}"/>
+        </h:column>
+        <h:column>
             <f:facet name="header">Aktionen</f:facet>
-<!--            <h:commandLink styleClass="button" action="#{userBean.editUser(user)}" value="Bearbeiten"/>-->
-<!--        </h:column>-->
-<!--        <h:column>-->
-<!--            <f:facet name="header"/>-->
+            <h:commandLink styleClass="button" action="#{meldungBean.editMeldung(meldung)}" value="Details"/>
+        </h:column>
+        <h:column>
             <h:commandLink styleClass="button" action="#{meldungBean.deleteMeldung(meldung)}" value="Löschen"/>
         </h:column>
     </h:dataTable>
 </ui:fragment>
 <ui:fragment rendered="#{meldungBean.createMode}">
-    <p>Geben Sie hier an, welchen Verbesserungsvorschlag Sie mit uns teilen möchten:</p>
+    <ui:fragment rendered="#{not meldungBean.detailMode}">
+        <p>Geben Sie hier an, welchen Verbesserungsvorschlag Sie mit uns teilen möchten:</p>
+    </ui:fragment>
+    <ui:fragment rendered="#{meldungBean.detailMode}">
+        <p>Sehen Sie hier alle Informationen zur Meldung ein.</p>
+    </ui:fragment>
     <h:form>
-        <h:panelGrid columns="4">
-            <h:outputLabel value="Kurs" for="Kurs"/>
-            <h:selectOneMenu id="Kurs" value="#{meldungBean.kursName}">
-                <f:selectItems value="#{kurseBean.allKurse}" var="kurs" itemValue="#{kurs.name}"
-                               itemLabel="#{kurs.name}"/>
-            </h:selectOneMenu>
-            <h:outputLabel value="Lehrmittel" for="Lehrmittel"/>
-            <h:selectOneMenu id="Lehrmittel" value="#{meldungBean.meldungToCreate.lehrmittel}">
-                <f:selectItems value="#{meldungBean.lehrmittel}" var="lehrmittel" itemValue="#{lehrmittel}"
-                               itemLabel="#{lehrmittel.beschreibung}"/>
-            </h:selectOneMenu>
-            <h:outputLabel value="Kurzbeschreibung" for="Kurzbeschreibung"/>
-            <h:inputText id="Kurzbeschreibung" value="#{meldungBean.meldungToCreate.kurzbeschreibung}"/>
-            <h:outputLabel value="Beschreibung" for="Beschreibung"/>
-            <h:inputTextarea id="Beschreibung" value="#{meldungBean.meldungToCreate.beschreibung}"/>
-            <h:outputLabel value="Priorität" for="Priorität"/>
-            <h:selectOneMenu id="Priorität" value="#{meldungBean.meldungToCreate.prioritaet}">
-                <f:selectItems value="#{meldungBean.prioritaeten}" var="prio" itemValue="#{prio}"
-                               itemLabel="#{prio.beschreibung}"/>
-            </h:selectOneMenu>
-            <h:outputLabel value="Kategorie" for="Kategorie"/>
-            <h:selectOneMenu id="Kategorie" value="#{meldungBean.meldungToCreate.kategorie}">
-                <f:selectItems value="#{meldungBean.kategorien}" var="kategorie" itemValue="#{kategorie}"
-                               itemLabel="#{kategorie.beschreibung}"/>
-            </h:selectOneMenu>
-            <h:commandButton style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
-                             styleClass="button" action="#{meldungBean.saveMeldung}" value="Speichern"/><br/>
-        </h:panelGrid>
+        <table>
+            <tr>
+                <td style="vertical-align: top">
+                    <h:panelGrid columns="4">
+                        <h:outputLabel value="Kurs" for="Kurs"/>
+                        <h:selectOneMenu disabled="#{meldungBean.detailMode}" id="Kurs" value="#{meldungBean.kursName}">
+                            <f:selectItems value="#{kurseBean.allKurse}" var="kurs" itemValue="#{kurs.name}"
+                                           itemLabel="#{kurs.name}"/>
+                        </h:selectOneMenu>
+                        <h:outputLabel value="Lehrmittel" for="Lehrmittel"/>
+                        <h:selectOneMenu disabled="#{meldungBean.detailMode}" id="Lehrmittel"
+                                         value="#{meldungBean.meldungToCreate.lehrmittel}">
+                            <f:selectItems disabled="#{meldungBean.detailMode}" value="#{meldungBean.lehrmittel}"
+                                           var="lehrmittel" itemValue="#{lehrmittel}"
+                                           itemLabel="#{lehrmittel.beschreibung}"/>
+                        </h:selectOneMenu>
+                        <h:outputLabel value="Kurzbeschreibung" for="Kurzbeschreibung"/>
+                        <h:inputText disabled="#{meldungBean.detailMode}" id="Kurzbeschreibung"
+                                     value="#{meldungBean.meldungToCreate.kurzbeschreibung}"/>
+                        <h:outputLabel value="Beschreibung" for="Beschreibung"/>
+                        <h:inputTextarea disabled="#{meldungBean.detailMode}" id="Beschreibung"
+                                         value="#{meldungBean.meldungToCreate.beschreibung}"/>
+                        <h:outputLabel value="Priorität" for="Priorität"/>
+                        <h:selectOneMenu disabled="#{meldungBean.detailMode}" id="Priorität"
+                                         value="#{meldungBean.meldungToCreate.prioritaet}">
+                            <f:selectItems value="#{meldungBean.prioritaeten}" var="prio" itemValue="#{prio}"
+                                           itemLabel="#{prio.beschreibung}"/>
+                        </h:selectOneMenu>
+                        <h:outputLabel value="Kategorie" for="Kategorie"/>
+                        <h:selectOneMenu disabled="#{meldungBean.detailMode}" id="Kategorie"
+                                         value="#{meldungBean.meldungToCreate.kategorie}">
+                            <f:selectItems value="#{meldungBean.kategorien}" var="kategorie" itemValue="#{kategorie}"
+                                           itemLabel="#{kategorie.beschreibung}"/>
+                        </h:selectOneMenu>
+                        <h:commandButton
+                                style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
+                                styleClass="button" action="#{meldungBean.saveMeldung}" value="Speichern"/><br/>
+                    </h:panelGrid>
+                </td>
+                <td style="vertical-align: top">
+                    <h:panelGrid rendered="#{meldungBean.detailMode}" columns="1">
+                        <h:outputLabel value="Meldung kommentieren:" for="Kommentar"/>
+                        <h:inputTextarea id="Kommentar"
+                                         value="#{meldungBean.kommentarToCreate}"/>
+                        <h:commandButton
+                                style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
+                                styleClass="button" action="#{meldungBean.saveComment}" value="Hinzufügen"/><br/>
+                        <h:outputLabel value="Alle Kommentare (neuste zuletzt):" for="Kommentar"/>
+                        <ui:repeat var="comment" value="#{meldungBean.meldungToCreate.kommentare}">
+                            <h:outputLabel value="#{comment.inhalt}"/><br/><br/>
+                        </ui:repeat>
+                    </h:panelGrid>
+                </td>
+            </tr>
+        </table>
     </h:form>
     <br/>
     <br/>

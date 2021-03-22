@@ -1,5 +1,6 @@
 package com.iubh.isef.korrekturmanagementsystem.view;
 
+import com.iubh.isef.korrekturmanagementsystem.entity.Kommentar;
 import com.iubh.isef.korrekturmanagementsystem.entity.Kurs;
 import com.iubh.isef.korrekturmanagementsystem.entity.Meldung;
 import com.iubh.isef.korrekturmanagementsystem.entity.User;
@@ -37,6 +38,7 @@ public class MeldungBean {
     private LoggedInUserService loggedInUserService;
 
     private boolean createMode = false;
+    private boolean detailMode = false;
 
     private Meldung meldungToCreate;
 
@@ -45,7 +47,9 @@ public class MeldungBean {
 
     private Lehrmittel[] lehrmittel = Lehrmittel.values();
 
-    private String  kursName;
+    private String kursName;
+
+    private String kommentarToCreate;
 
     public Meldung getMeldungToCreate() {
         return meldungToCreate;
@@ -72,6 +76,22 @@ public class MeldungBean {
         this.lehrmittel = lehrmittel;
     }
 
+    public boolean isDetailMode() {
+        return detailMode;
+    }
+
+    public void setDetailMode(boolean detailMode) {
+        this.detailMode = detailMode;
+    }
+
+    public String getKommentarToCreate() {
+        return kommentarToCreate;
+    }
+
+    public void setKommentarToCreate(String kommentarToCreate) {
+        this.kommentarToCreate = kommentarToCreate;
+    }
+
     public String getKursName() {
         return kursName;
     }
@@ -89,8 +109,14 @@ public class MeldungBean {
     }
 
     public void setCreateMode(boolean createMode) {
+        if (detailMode && !createMode) {
+            meldungRepository.save(meldungToCreate);
+        }
         meldungToCreate = new Meldung();
         this.createMode = createMode;
+        if (createMode) {
+            detailMode = false;
+        }
     }
 
     public boolean isCreateMode() {
@@ -102,6 +128,7 @@ public class MeldungBean {
         meldungToCreate.setCreator(loggedInUserService.getLoggedInUser());
         meldungRepository.save(meldungToCreate);
         createMode = false;
+        detailMode = false;
     }
 
     public List<Meldung> getAllMeldungen() {
@@ -114,10 +141,28 @@ public class MeldungBean {
 
     public void editMeldung(Meldung meldung) {
         setCreateMode(true);
+        setDetailMode(true);
         meldungToCreate = meldungRepository.findById(meldung.getId()).orElse(null);
     }
 
     public String getFormattedDate(LocalDateTime localDateTime) {
         return localDateTime.format(DateTimeFormatter.ofPattern("dd.mm.uuuu HH:mm:ss"));
+    }
+
+    public void saveComment() {
+        if (kommentarToCreate != null && !kommentarToCreate.equals("")) {
+            List<Kommentar> kommentare = meldungToCreate.getKommentare();
+            Kommentar kommentar = new Kommentar();
+            kommentar.setInhalt(kommentarToCreate);
+            kommentarToCreate = "";
+            kommentare.add(kommentar);
+        }
+    }
+
+    public int getKommentarSize(Meldung meldung) {
+        if (meldung.getKommentare() == null) {
+            return 0;
+        }
+        return meldung.getKommentare().size();
     }
 }

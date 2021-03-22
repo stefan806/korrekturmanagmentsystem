@@ -53,7 +53,7 @@ public class Meldung {
     @JoinColumn(name = "kursid", referencedColumnName = "kursid")
     private Kurs kurs;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade=CascadeType.ALL)
     @JoinColumn(name = "reportid", referencedColumnName = "id")
     private List<Kommentar> kommentare;
 
