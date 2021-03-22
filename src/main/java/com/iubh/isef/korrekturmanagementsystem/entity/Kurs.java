@@ -18,7 +18,8 @@ import java.util.Set;
 public class Kurs {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="course_id_seq")
+    @SequenceGenerator(name="course_id_seq", sequenceName="course_id_seq", allocationSize=1)
     @Column(name = "kursid")
     private Long id;
 

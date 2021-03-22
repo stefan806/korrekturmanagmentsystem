@@ -14,7 +14,8 @@ import javax.persistence.*;
 public class Kommentar {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator="comments_id_seq")
+    @SequenceGenerator(name="comments_id_seq", sequenceName="comments_id_seq", allocationSize=1)
     @Column(name = "id")
     private Long kommentarId;
 
