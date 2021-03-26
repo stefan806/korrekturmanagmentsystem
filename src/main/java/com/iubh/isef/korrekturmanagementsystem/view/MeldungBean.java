@@ -171,10 +171,10 @@ public class MeldungBean {
             List<Kommentar> kommentare = meldungToCreate.getKommentare();
             Kommentar kommentar = new Kommentar();
             kommentar.setInhalt(
-//                    loggedInUserService.getLoggedInUser().getVorname() + " "
-//                    + loggedInUserService.getLoggedInUser().getNachname()
-//                    + " (" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.mm.uuuu HH:mm:ss")) + "): "
-//                    +
+                    loggedInUserService.getLoggedInUser().getVorname() + " "
+                    + loggedInUserService.getLoggedInUser().getNachname()
+                    + " (" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.mm.uuuu HH:mm:ss")) + "): "
+                    +
                     kommentarToCreate);
             kommentarToCreate = "";
             kommentare.add(kommentar);
