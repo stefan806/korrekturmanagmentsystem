@@ -5,7 +5,7 @@ public enum Status {
     IN_BEARBEITUNG("In Bearbeitung"),
     TEST("Test"),
     ERLEDIGT("Erledigt"),
-    ZURUECKGESTELLT("Zurückgestellt");
+    ZURUECKGESTELLT("Zurückgestellt / Rückfrage");
 
     private String beschreibung;
 

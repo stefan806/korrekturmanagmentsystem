@@ -70,6 +70,15 @@
             <tr>
                 <td style="vertical-align: top">
                     <h:panelGrid columns="4">
+                        <h:outputLabel rendered="#{meldungBean.detailMode}" value="Status" for="Status"/>
+                        <h:selectOneMenu rendered="#{meldungBean.detailMode}" disabled="true" id="Status"
+                                         value="#{meldungBean.meldungToCreate.status}">
+                            <f:selectItems value="#{meldungBean.statuses}" var="status" itemValue="#{status}"
+                                           itemLabel="#{status.beschreibung}"/>
+                        </h:selectOneMenu>
+                        <h:outputLabel rendered="#{meldungBean.detailMode}" value="Bearbeiter" for="Bearbeiter"/>
+                        <h:inputText rendered="#{meldungBean.detailMode}" disabled="true" id="Bearbeiter"
+                                     value="#{meldungBean.meldungToCreate.editor.vorname} #{meldungBean.meldungToCreate.editor.nachname}"/>
                         <h:outputLabel value="Kurs" for="Kurs"/>
                         <h:selectOneMenu disabled="#{meldungBean.detailMode}" id="Kurs" value="#{meldungBean.kursName}">
                             <f:selectItems value="#{kurseBean.allKurse}" var="kurs" itemValue="#{kurs.name}"
@@ -102,7 +111,16 @@
                         </h:selectOneMenu>
                         <h:commandButton
                                 style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
-                                styleClass="button" action="#{meldungBean.saveMeldung}" value="Speichern"/><br/>
+                                styleClass="button" action="#{meldungBean.saveMeldung}" value="Speichern"/>
+                        <h:commandButton rendered="#{meldungBean.detailMode and loggedInUserService.bearbeiter and meldungBean.meldungToCreate.status.beschreibung == 'Angelegt'}"
+                                style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
+                                styleClass="button" action="#{meldungBean.takeOver}" value="Übernehmen"/>
+                        <h:commandButton rendered="#{meldungBean.detailMode and loggedInUserService.bearbeiter and meldungBean.meldungToCreate.status.beschreibung == 'In Bearbeitung'}"
+                                         style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
+                                         styleClass="button" action="#{meldungBean.toTest}" value="Zu Testen"/>
+                        <h:commandButton rendered="#{meldungBean.detailMode and loggedInUserService.ersteller and meldungBean.meldungToCreate.status.beschreibung == 'Test'}"
+                                         style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
+                                         styleClass="button" action="#{meldungBean.toDone}" value="Akzeptieren"/>
                     </h:panelGrid>
                 </td>
                 <td style="vertical-align: top; padding-left: 150px">

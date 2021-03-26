@@ -23,4 +23,26 @@ public class LoggedInUserService {
         }
         return userRepository.findByEmail(loggedInEmail);
     }
+
+    public String getLoggedInUserInfo() {
+        User loggedInUser = getLoggedInUser();
+        if (loggedInUser == null) return "";
+        return loggedInUser.getVorname() + " "
+                + loggedInUser.getNachname() + " ("
+                + loggedInUser.getRolle().getBezeichnung() + ")";
+    }
+
+    public boolean isErsteller() {
+        return getLoggedInUser().getRolle().getBezeichnung().equals("Ersteller") ||
+                getLoggedInUser().getRolle().getBezeichnung().equals("Administrator");
+    }
+
+    public boolean isBearbeiter() {
+        return getLoggedInUser().getRolle().getBezeichnung().equals("Bearbeiter") ||
+                getLoggedInUser().getRolle().getBezeichnung().equals("Administrator");
+    }
+
+    public void logout(){
+        this.loggedInEmail = null;
+    }
 }

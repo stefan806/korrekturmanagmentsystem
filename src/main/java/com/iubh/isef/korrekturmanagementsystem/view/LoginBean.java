@@ -61,4 +61,10 @@ public class LoginBean {
             loggedInUserService.setLoggedInUsername(loggedInUserEmail);
         }
     }
+
+    public void logout() {
+        System.out.println("User logged out");
+        loginGranted = false;
+        loggedInUserService.logout();
+    }
 }

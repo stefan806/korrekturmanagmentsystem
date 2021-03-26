@@ -17,7 +17,7 @@ public class IntegrationTest {
 
 	@Test
 	public void test() {
-		this.webClient.get().uri("/ui/start.xhtml").exchange().expectStatus().isOk();
+		this.webClient.get().uri("/ui/login.xhtml").exchange().expectStatus().isOk();
 	}
 
 }

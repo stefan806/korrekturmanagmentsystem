@@ -1,12 +1,12 @@
 package com.iubh.isef.korrekturmanagementsystem.view;
 
 import com.iubh.isef.korrekturmanagementsystem.entity.Kommentar;
-import com.iubh.isef.korrekturmanagementsystem.entity.Kurs;
 import com.iubh.isef.korrekturmanagementsystem.entity.Meldung;
 import com.iubh.isef.korrekturmanagementsystem.entity.User;
 import com.iubh.isef.korrekturmanagementsystem.enumeration.Kategorie;
 import com.iubh.isef.korrekturmanagementsystem.enumeration.Lehrmittel;
 import com.iubh.isef.korrekturmanagementsystem.enumeration.Prioritaet;
+import com.iubh.isef.korrekturmanagementsystem.enumeration.Status;
 import com.iubh.isef.korrekturmanagementsystem.repository.KurseRepository;
 import com.iubh.isef.korrekturmanagementsystem.repository.MeldungRepository;
 import com.iubh.isef.korrekturmanagementsystem.service.LoggedInUserService;
@@ -44,6 +44,7 @@ public class MeldungBean {
 
     private Prioritaet[] prioritaeten = Prioritaet.values();
     private Kategorie[] kategorien = Kategorie.values();
+    private Status[] statuses = Status.values();
 
     private Lehrmittel[] lehrmittel = Lehrmittel.values();
 
@@ -100,12 +101,24 @@ public class MeldungBean {
         this.kursName = kursName;
     }
 
+    public Status[] getStatuses() {
+        return statuses;
+    }
+
+    public void setStatuses(Status[] statuses) {
+        this.statuses = statuses;
+    }
+
     public Kategorie[] getKategorien() {
         return kategorien;
     }
 
     public void setKategorien(Kategorie[] kategorien) {
         this.kategorien = kategorien;
+    }
+
+    public User getLoggedInUser() {
+        return loggedInUserService.getLoggedInUser();
     }
 
     public void setCreateMode(boolean createMode) {
@@ -150,19 +163,57 @@ public class MeldungBean {
     }
 
     public void saveComment() {
+        saveComment(false);
+    }
+
+    public void saveComment(boolean rueckfrage) {
         if (kommentarToCreate != null && !kommentarToCreate.equals("")) {
             List<Kommentar> kommentare = meldungToCreate.getKommentare();
             Kommentar kommentar = new Kommentar();
-            kommentar.setInhalt(kommentarToCreate);
+            kommentar.setInhalt(
+//                    loggedInUserService.getLoggedInUser().getVorname() + " "
+//                    + loggedInUserService.getLoggedInUser().getNachname()
+//                    + " (" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.mm.uuuu HH:mm:ss")) + "): "
+//                    +
+                    kommentarToCreate);
             kommentarToCreate = "";
             kommentare.add(kommentar);
         }
     }
 
-    public int getKommentarSize(Meldung meldung) {
-        if (meldung.getKommentare() == null) {
-            return 0;
-        }
-        return meldung.getKommentare().size();
+    public void takeOver() {
+        this.meldungToCreate.setEditor(loggedInUserService.getLoggedInUser());
+        this.meldungToCreate.setStatus(Status.IN_BEARBEITUNG);
     }
+
+    public void toTest() {
+        this.meldungToCreate.setEditor(meldungToCreate.getCreator());
+        this.meldungToCreate.setStatus(Status.TEST);
+    }
+
+    public void toDone() {
+        this.meldungToCreate.setEditor(null);
+        this.meldungToCreate.setStatus(Status.ERLEDIGT);
+    }
+
+    public String getKommentarSize(Meldung meldung) {
+        if (meldung.getKommentare() == null) {
+            return "-";
+        }
+        int size = meldung.getKommentare().size();
+        if (size == 0) {
+            return "-";
+        }
+        return size + "";
+    }
+//
+//    private void createRueckfrage(String text) {
+//        this.meldungToCreate.setEditor(meldungToCreate.getCreator());
+//        this.meldungToCreate.setStatus(Status.ZURUECKGESTELLT);
+//    }
+//
+//    private void createRueckfrage() {
+//        this.meldungToCreate.setEditor(meldungToCreate.getCreator());
+//        this.meldungToCreate.setStatus(Status.ZURUECKGESTELLT);
+//    }
 }

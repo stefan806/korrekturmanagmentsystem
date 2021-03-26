@@ -28,9 +28,7 @@ public class ViewScope implements Scope {
 	}
 
 	@Override
-	public void registerDestructionCallback(String arg0, Runnable arg1) {
-
-	}
+	public void registerDestructionCallback(String arg0, Runnable arg1) {}
 
 	@Override
 	public Object remove(String name) {
