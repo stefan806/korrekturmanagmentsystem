@@ -13,7 +13,7 @@
 <body>
 <ui:fragment rendered="#{not kurseBean.createMode}">
     <p>
-        Sehen Sie sich alle Kurse an oder fügen Sie neue Kurse hinzu.
+        Sehen Sie sich alle Kurse an, bearbeiten Sie diese oder fügen Sie neue Kurse hinzu.
     </p>
     <p>
         <h:commandLink styleClass="button" action="#{kurseBean.setCreateMode(true)}" value="Neuen Kurs anlegen"
@@ -45,7 +45,7 @@
     </h:dataTable>
 </ui:fragment>
 <ui:fragment rendered="#{kurseBean.createMode}">
-    <p>Legen Sie hier neue Kurse an, die im Korrekturmanagementsystem verwaltet werden sollen.</p>
+    <p>Legen Sie hier neue Kurse an, die im Korrekturmanagementsystem verwaltet werden sollen.<br/>Bearbeiter des Kurses können sich eingehende Meldungen zuweisen und bearbeiten.</p>
     <h:form>
         <h:panelGrid columns="4">
             <h:outputLabel value="Kurs-Name" for="Name"/>
