@@ -159,7 +159,7 @@ public class MeldungBean {
     }
 
     public String getFormattedDate(LocalDateTime localDateTime) {
-        return localDateTime.format(DateTimeFormatter.ofPattern("dd.mm.uuuu HH:mm:ss"));
+        return localDateTime.format(DateTimeFormatter.ofPattern("dd.MM.uuuu HH:mm:ss"));
     }
 
     public void saveComment() {
@@ -173,7 +173,7 @@ public class MeldungBean {
             kommentar.setInhalt(
                     loggedInUserService.getLoggedInUser().getVorname() + " "
                     + loggedInUserService.getLoggedInUser().getNachname()
-                    + " (" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.mm.uuuu HH:mm:ss")) + "): "
+                    + " (" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.uuuu HH:mm:ss")) + "): "
                     +
                     kommentarToCreate);
             kommentarToCreate = "";
