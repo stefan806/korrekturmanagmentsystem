@@ -21,6 +21,7 @@ import javax.faces.bean.ManagedBean;
 import javax.inject.Named;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -185,7 +186,7 @@ public class MeldungBean {
     }
 
     public void saveComment() {
-        saveComment(false);
+        saveComment(false, false);
     }
 
     /**
@@ -193,18 +194,26 @@ public class MeldungBean {
      *
      * @param rueckfrage boolean
      */
-    public void saveComment(boolean rueckfrage) {
+    public void saveComment(boolean rueckfrage, boolean antwort) {
         if (kommentarToCreate != null && !kommentarToCreate.equals("")) {
             List<Kommentar> kommentare = meldungToCreate.getKommentare();
             Kommentar kommentar = new Kommentar();
-            kommentar.setInhalt(
+            kommentar.setInhalt((rueckfrage ? "Rückfrage von " : "") + (antwort ? "Antwort von " : "") +
                     loggedInUserService.getLoggedInUser().getVorname() + " "
-                            + loggedInUserService.getLoggedInUser().getNachname()
-                            + " (" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.uuuu HH:mm:ss")) + "): "
-                            +
-                            kommentarToCreate);
+                    + loggedInUserService.getLoggedInUser().getNachname()
+                    + " (" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.uuuu HH:mm:ss")) + "): "
+                    +
+                    kommentarToCreate);
             kommentarToCreate = "";
             kommentare.add(kommentar);
+            if (meldungToCreate.getStatus() == Status.ZURUECKGESTELLT) {
+                meldungToCreate.setStatus(Status.ANGELEGT);
+                meldungToCreate.setEditor(null);
+            }
+            if (rueckfrage) {
+                meldungToCreate.setStatus(Status.ZURUECKGESTELLT);
+                meldungToCreate.setEditor(meldungToCreate.getCreator());
+            }
         }
     }
 
@@ -233,14 +242,22 @@ public class MeldungBean {
         }
         return size + "";
     }
-//
-//    private void createRueckfrage(String text) {
-//        this.meldungToCreate.setEditor(meldungToCreate.getCreator());
-//        this.meldungToCreate.setStatus(Status.ZURUECKGESTELLT);
-//    }
-//
-//    private void createRueckfrage() {
-//        this.meldungToCreate.setEditor(meldungToCreate.getCreator());
-//        this.meldungToCreate.setStatus(Status.ZURUECKGESTELLT);
-//    }
+
+    public List<String> getComments() {
+        List<String> comments = meldungToCreate.getKommentare().stream().map(Kommentar::getInhalt).collect(Collectors.toList());
+        List<String> results = new ArrayList<>();
+        for (String comment : comments) {
+            boolean contains = false;
+            for (String result : results) {
+                if (result.substring(0, comment.indexOf("):")).equals(comment.substring(0, comment.indexOf("):")))) {
+                    contains = true;
+                }
+            }
+            if (!contains) {
+                results.add(comment);
+            }
+        }
+        return results;
+
+    }
 }

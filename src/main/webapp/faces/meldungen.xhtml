@@ -63,7 +63,8 @@
         <p>Geben Sie hier an, welchen Verbesserungsvorschlag Sie mit uns teilen möchten:</p>
     </ui:fragment>
     <ui:fragment rendered="#{meldungBean.detailMode}">
-        <p>Sehen Sie hier alle Informationen zur Meldung ein.<br/>Hinterlassen Sie ein Kommentar, ändern Sie den Bearbeitungsstatus oder stellen Sie dem <br/>Ersteller der Meldung eine Rückfrage zu dieser Meldung.</p>
+        <p>Sehen Sie hier alle Informationen zur Meldung ein.<br/>Hinterlassen Sie ein Kommentar, ändern Sie den Bearbeitungsstatus oder stellen Sie dem
+            <br/>Ersteller der Meldung eine Rückfrage zu dieser Meldung.</p>
     </ui:fragment>
     <h:form>
         <table>
@@ -112,28 +113,44 @@
                         <h:commandButton
                                 style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
                                 styleClass="button" action="#{meldungBean.saveMeldung}" value="Speichern"/>
-                        <h:commandButton rendered="#{meldungBean.detailMode and loginBean.loggedInUserService.bearbeiter and meldungBean.meldungToCreate.status.beschreibung == 'Angelegt'}"
+                        <h:commandButton
+                                rendered="#{meldungBean.detailMode and loginBean.loggedInUserService.bearbeiter and meldungBean.meldungToCreate.status.beschreibung == 'Angelegt'}"
                                 style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
                                 styleClass="button" action="#{meldungBean.takeOver}" value="Übernehmen"/>
-                        <h:commandButton rendered="#{meldungBean.detailMode and loginBean.loggedInUserService.bearbeiter and meldungBean.meldungToCreate.status.beschreibung == 'In Bearbeitung'}"
-                                         style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
-                                         styleClass="button" action="#{meldungBean.toTest}" value="Zu Testen"/>
-                        <h:commandButton rendered="#{meldungBean.detailMode and loginBean.loggedInUserService.ersteller and meldungBean.meldungToCreate.status.beschreibung == 'Test'}"
-                                         style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
-                                         styleClass="button" action="#{meldungBean.toDone}" value="Akzeptieren"/>
+                        <h:commandButton
+                                rendered="#{meldungBean.detailMode and loginBean.loggedInUserService.bearbeiter and meldungBean.meldungToCreate.status.beschreibung == 'In Bearbeitung'}"
+                                style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
+                                styleClass="button" action="#{meldungBean.toTest}" value="Zu Testen"/>
+                        <h:commandButton
+                                rendered="#{meldungBean.detailMode and loginBean.loggedInUserService.ersteller and meldungBean.meldungToCreate.status.beschreibung == 'Test'}"
+                                style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
+                                styleClass="button" action="#{meldungBean.toDone}" value="Akzeptieren"/>
                     </h:panelGrid>
                 </td>
                 <td style="vertical-align: top; padding-left: 150px">
                     <h:panelGrid rendered="#{meldungBean.detailMode}" columns="1">
-                        <h:outputLabel value="Meldung kommentieren:" for="Kommentar"/>
+                        <h:outputLabel value="Meldung kommentieren / Rückfrage stellen:" for="Kommentar"/>
                         <h:inputTextarea id="Kommentar"
                                          value="#{meldungBean.kommentarToCreate}"/>
                         <h:commandButton
                                 style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
-                                styleClass="button" action="#{meldungBean.saveComment}" value="Hinzufügen"/><br/>
+                                styleClass="button" action="#{meldungBean.saveComment}" value="Hinzufügen"/>
+
+                        <h:commandButton
+                                rendered="#{loggedInUserService.bearbeiter and meldungBean.meldungToCreate.status.beschreibung == 'In Bearbeitung'}"
+                                style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
+                                styleClass="button" action="#{meldungBean.saveComment(true, false)}"
+                                value="Als Rückfrage"/>
+
+                        <h:commandButton
+                                rendered="#{loggedInUserService.ersteller and meldungBean.meldungToCreate.status.beschreibung == 'Zurückgestellt / Rückfrage'}"
+                                style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
+                                styleClass="button" action="#{meldungBean.saveComment(false, true)}"
+                                value="Als Antwort"/>
+                        <br/>
                         <h:outputLabel value="Alle Kommentare (neuste zuletzt):" for="Kommentar"/>
-                        <ui:repeat var="comment" value="#{meldungBean.meldungToCreate.kommentare}">
-                            <h:outputLabel value="#{comment.inhalt}"/><br/><br/>
+                        <ui:repeat var="comment" value="#{meldungBean.comments}">
+                            <h:outputLabel value="#{comment}"/><br/><br/>
                         </ui:repeat>
                     </h:panelGrid>
                 </td>
