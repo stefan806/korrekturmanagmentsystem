@@ -14,7 +14,7 @@
         <img class="logo" width="250" src="../image/logo_iubh.png"/>
         <h:form>
             <h:outputText style="position: absolute; right: 200px; top: 35px;"
-                          value="#{loggedInUserService.loggedInUserInfo}"/>
+                          value="#{loginBean.loggedInUserService.loggedInUserInfo}"/>
             <h:commandLink styleClass="button" style="position: absolute; right: 50px; top: 35px;"
                            action="#{loginBean.logout}" rendered="#{loginBean.loginGranted}"
                            value="Abmelden"/>

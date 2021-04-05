@@ -112,13 +112,13 @@
                         <h:commandButton
                                 style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
                                 styleClass="button" action="#{meldungBean.saveMeldung}" value="Speichern"/>
-                        <h:commandButton rendered="#{meldungBean.detailMode and loggedInUserService.bearbeiter and meldungBean.meldungToCreate.status.beschreibung == 'Angelegt'}"
+                        <h:commandButton rendered="#{meldungBean.detailMode and loginBean.loggedInUserService.bearbeiter and meldungBean.meldungToCreate.status.beschreibung == 'Angelegt'}"
                                 style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
                                 styleClass="button" action="#{meldungBean.takeOver}" value="Übernehmen"/>
-                        <h:commandButton rendered="#{meldungBean.detailMode and loggedInUserService.bearbeiter and meldungBean.meldungToCreate.status.beschreibung == 'In Bearbeitung'}"
+                        <h:commandButton rendered="#{meldungBean.detailMode and loginBean.loggedInUserService.bearbeiter and meldungBean.meldungToCreate.status.beschreibung == 'In Bearbeitung'}"
                                          style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
                                          styleClass="button" action="#{meldungBean.toTest}" value="Zu Testen"/>
-                        <h:commandButton rendered="#{meldungBean.detailMode and loggedInUserService.ersteller and meldungBean.meldungToCreate.status.beschreibung == 'Test'}"
+                        <h:commandButton rendered="#{meldungBean.detailMode and loginBean.loggedInUserService.ersteller and meldungBean.meldungToCreate.status.beschreibung == 'Test'}"
                                          style="border: none; text-align: left !important; padding-left: 0 !important; cursor: pointer"
                                          styleClass="button" action="#{meldungBean.toDone}" value="Akzeptieren"/>
                     </h:panelGrid>

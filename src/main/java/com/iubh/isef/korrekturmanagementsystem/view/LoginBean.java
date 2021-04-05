@@ -5,26 +5,42 @@ import com.iubh.isef.korrekturmanagementsystem.repository.UserRepository;
 import com.iubh.isef.korrekturmanagementsystem.service.LoggedInUserService;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.ManagedBean;
+import javax.enterprise.context.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 
 @Component
-@Scope("view")
-@ManagedBean
+@ApplicationScoped
 @NoArgsConstructor
+@Named
+@ManagedBean
+@Configurable
+@ComponentScan
 public class LoginBean {
 
-    @Autowired
     private UserRepository userRepository;
 
-    @Autowired
     private LoggedInUserService loggedInUserService;
 
     private String loggedInUserEmail;
     private String loggedInUserPassword;
     private boolean loginGranted = false;
+
+    /**
+     * Constructor for LoginBean
+     *
+     * @param userRepository UserRepository
+     * @param loggedInUserService LoggedInUserService
+     */
+    @Autowired
+    public LoginBean(UserRepository userRepository, LoggedInUserService loggedInUserService) {
+        this.loggedInUserService = loggedInUserService;
+        this.userRepository = userRepository;
+    }
 
     public boolean isLoginGranted() {
         return loginGranted;
@@ -50,6 +66,18 @@ public class LoginBean {
         this.loggedInUserPassword = loggedInUserPassword;
     }
 
+    public LoggedInUserService getLoggedInUserService() {
+        return loggedInUserService;
+    }
+
+    public void setLoggedInUserService(LoggedInUserService loggedInUserService) {
+        this.loggedInUserService = loggedInUserService;
+    }
+
+    /**
+     * Checks credentials (username and password) for user trying to login.
+     * Sets loginGranted field.
+     */
     public void checkLogin() {
         User user = userRepository.findByEmail(loggedInUserEmail);
         if (user == null) {
@@ -58,6 +86,7 @@ public class LoginBean {
         }
         loginGranted = user.getPassword().equals(loggedInUserPassword);
         if (loginGranted) {
+            System.out.println("User logged in");
             loggedInUserService.setLoggedInUsername(loggedInUserEmail);
         }
     }

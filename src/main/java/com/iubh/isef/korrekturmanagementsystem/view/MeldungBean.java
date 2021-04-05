@@ -12,10 +12,13 @@ import com.iubh.isef.korrekturmanagementsystem.repository.MeldungRepository;
 import com.iubh.isef.korrekturmanagementsystem.service.LoggedInUserService;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.ManagedBean;
+import javax.enterprise.context.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -23,18 +26,18 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Component
-@Scope("view")
-@ManagedBean
+@ApplicationScoped
 @NoArgsConstructor
+@Named
+@ManagedBean
+@Configurable
+@ComponentScan
 public class MeldungBean {
 
-    @Autowired
     private MeldungRepository meldungRepository;
 
-    @Autowired
     private KurseRepository kurseRepository;
 
-    @Autowired
     private LoggedInUserService loggedInUserService;
 
     private boolean createMode = false;
@@ -51,6 +54,20 @@ public class MeldungBean {
     private String kursName;
 
     private String kommentarToCreate;
+
+    /**
+     * Constructor for MeldungBean
+     *
+     * @param meldungRepository
+     * @param kurseRepository
+     * @param loggedInUserService
+     */
+    @Autowired
+    public MeldungBean(MeldungRepository meldungRepository, KurseRepository kurseRepository, LoggedInUserService loggedInUserService) {
+        this.meldungRepository = meldungRepository;
+        this.kurseRepository = kurseRepository;
+        this.loggedInUserService = loggedInUserService;
+    }
 
     public Meldung getMeldungToCreate() {
         return meldungToCreate;
@@ -121,6 +138,11 @@ public class MeldungBean {
         return loggedInUserService.getLoggedInUser();
     }
 
+    /**
+     * used to set view for report site
+     *
+     * @param createMode
+     */
     public void setCreateMode(boolean createMode) {
         if (detailMode && !createMode) {
             meldungRepository.save(meldungToCreate);
@@ -166,16 +188,21 @@ public class MeldungBean {
         saveComment(false);
     }
 
+    /**
+     * saves given comment to report. If rueckfrage is true, the comment will be added and the status of the report is set to 'Zurückgestellt / Rückfrage'.
+     *
+     * @param rueckfrage boolean
+     */
     public void saveComment(boolean rueckfrage) {
         if (kommentarToCreate != null && !kommentarToCreate.equals("")) {
             List<Kommentar> kommentare = meldungToCreate.getKommentare();
             Kommentar kommentar = new Kommentar();
             kommentar.setInhalt(
                     loggedInUserService.getLoggedInUser().getVorname() + " "
-                    + loggedInUserService.getLoggedInUser().getNachname()
-                    + " (" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.uuuu HH:mm:ss")) + "): "
-                    +
-                    kommentarToCreate);
+                            + loggedInUserService.getLoggedInUser().getNachname()
+                            + " (" + LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd.MM.uuuu HH:mm:ss")) + "): "
+                            +
+                            kommentarToCreate);
             kommentarToCreate = "";
             kommentare.add(kommentar);
         }

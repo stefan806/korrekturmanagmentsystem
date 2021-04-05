@@ -6,25 +6,31 @@ import com.iubh.isef.korrekturmanagementsystem.repository.RoleRepository;
 import com.iubh.isef.korrekturmanagementsystem.repository.UserRepository;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.ManagedBean;
+import javax.enterprise.context.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+@ApplicationScoped
 @Component
-@Scope("view")
-@ManagedBean
 @NoArgsConstructor
+@Named
+@ManagedBean
+@Configurable
+@ComponentScan
 public class UserBean {
 
-    @Autowired
+    private static final String DEFAULT_PASSWORD = "passwort";
     private UserRepository userRepository;
 
-    @Autowired
     private RoleRepository roleRepository;
 
     private boolean createMode = false;
@@ -32,6 +38,18 @@ public class UserBean {
     private User userToCreate = new User();
 
     private String userToCreateRole;
+
+    /**
+     * Constructor for UserBean
+     *
+     * @param userRepository UserRepository
+     * @param roleRepository RoleRepository
+     */
+    @Autowired
+    public UserBean(UserRepository userRepository, RoleRepository roleRepository) {
+        this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
+    }
 
     public boolean isCreateMode() {
         return createMode;
@@ -75,13 +93,20 @@ public class UserBean {
         userRepository.deleteById(user.getEmail());
     }
 
+    /**
+     * Adds new user with given roles and sets default password.
+     *
+     * @return user User
+     */
     public User addUser() {
         Rolle rolle = roleRepository.findByBezeichnung(userToCreateRole);
         userToCreate.setRolle(rolle);
         if (userToCreate.getPassword() == null || userToCreate.getPassword().equals("")) {
-            userToCreate.setPassword("passwort");
+            userToCreate.setPassword(DEFAULT_PASSWORD);
         }
         createMode = false;
         return userRepository.save(userToCreate);
     }
 }
+
+

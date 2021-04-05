@@ -7,36 +7,55 @@ import com.iubh.isef.korrekturmanagementsystem.repository.KurseRepository;
 import com.iubh.isef.korrekturmanagementsystem.repository.UserRepository;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
+import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.ManagedBean;
+import javax.enterprise.context.ApplicationScoped;
+import javax.faces.bean.ManagedBean;
+import javax.inject.Named;
 import javax.transaction.Transactional;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Component
-@Scope("view")
-@ManagedBean
+@ApplicationScoped
 @NoArgsConstructor
+@Named
+@ManagedBean
+@Configurable
+@ComponentScan
 public class KurseBean {
 
-    @Autowired
-    public KurseRepository kurseRepository;
+    private KurseRepository kurseRepository;
 
-    @Autowired
-    public UserRepository userRepository;
+    private UserRepository userRepository;
 
     private boolean createMode = false;
 
     private Kurs kursToCreate = new Kurs();
 
+    Set<User> bearbeiter = new HashSet<>();
+
+    /**
+     * Constructor for KurseBean
+     *
+     * @param kurseRepository KurseRepository
+     * @param userRepository UserRepository
+     */
+    @Autowired
+    public KurseBean(KurseRepository kurseRepository, UserRepository userRepository){
+        this.kurseRepository = kurseRepository;
+        this.userRepository = userRepository;
+    }
+
     public boolean isCreateMode() {
         return createMode;
     }
-
-    Set<User> bearbeiter = new HashSet<>();
 
     public Set<User> getBearbeiter() {
         return bearbeiter;
